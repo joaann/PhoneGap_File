@@ -1,0 +1,64 @@
+(function(){
+	var module = angular.module('file-controllers', ['ngCordova']);
+	module.controller('FileCtrl',['$scope', '$cordovaFile' ,function($scope, $cordovaFile){
+	$scope.output = '';
+	var dataBigFile = $.get('files/test1mb.txt'); // 1mb testfile
+	var dataSmallFile = $.get('files/test512kb.txt'); // 512kb testfile
+		document.addEventListener('deviceready', function(){
+			
+			
+			$scope.writeBigFile = function() {
+				var wBFStart = new Date().getTime();
+				$cordovaFile.writeFile(cordova.file.dataDirectory , "test.txt", dataBigFile, true).then(function(success){
+				//console.log("Wrote " + dataBigFile + " to test.txt");
+				}, function(err){	
+					console.log('write error '+err.code)
+				});
+				var wBFEnd = new Date().getTime();
+				$scope.wBFTime = wBFEnd - wBFStart;
+				console.log($scope.wBFTime);
+			};
+
+			
+			
+			$scope.readBigFile = function(){ 
+			var rBFStart = new Date().getTime();
+				$cordovaFile.readAsText(cordova.file.dataDirectory, 'test.txt')
+				.then(function (success) {
+					//console.log(success);
+					$scope.output = JSON.parse(success).responseText;
+				}, function (err) {
+					console.log('Read error '+err.code);
+				});
+			var rBFEnd = new Date().getTime();
+			$scope.rBFTime = rBFEnd - rBFStart;
+			};
+			
+			
+			$scope.writeSmallFile = function() {
+				var wSFStart = new Date().getTime();
+				$cordovaFile.writeFile(cordova.file.dataDirectory , "test.txt", dataSmallFile, true)
+				.then(function(success){
+					//console.log("Wrote " + dataBigFile + " to test.txt");
+				}, function(err){	
+					console.log('write error '+err.code)
+				});
+				var wSFEnd = new Date().getTime();
+				$scope.wSFTime = wSFEnd - wSFStart;
+			};
+			var rSFStart = new Date().getTime();
+			$scope.readSmallFile = function(){ 
+				$cordovaFile.readAsText(cordova.file.dataDirectory, 'test.txt')
+				.then(function (success) {
+					//console.log(success);
+					$scope.output = JSON.parse(success).responseText;
+				}, function (err) {
+					console.log('Read error '+err.code);
+				});
+			};
+			var rSFEnd = new Date().getTime();
+			$scope.rSFTime = rSFEnd - rSFStart;
+		});
+	}]);
+	
+})();

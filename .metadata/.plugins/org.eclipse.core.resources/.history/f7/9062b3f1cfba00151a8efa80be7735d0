@@ -1,0 +1,34 @@
+(function(){
+	var module = angular.module('file-controllers', ['ngCordova']);
+	module.controller('FileCtrl',['$scope', '$cordovaFile' ,function($scope, $cordovaFile){
+	$scope.output = '';
+	var dataTestFile = $.get('files/test1mb.txt'); // 1mb testfile (test1mb) or 512kb testfile(test512kb)
+		document.addEventListener('deviceready', function(){
+			var wBFStart = new Date().getTime();
+			$scope.writeTestFile = function() {
+				$cordovaFile.writeFile(cordova.file.dataDirectory , "test.txt", dataTestFile, true).then(function(success){
+				//console.log("Wrote " + dataTestFile + " to test.txt");
+				}, function(err){	
+					console.log('write error '+err.code)
+				});
+			};
+			var wBFEnd = new Date().getTime();s
+			$scope.wBFTime = wBFEnd - wBFStart;
+			console.log($scope.wBFTime);
+			
+			$scope.readTestFile = function(){ 
+			var rBFStart = new Date().getTime();
+				$cordovaFile.readAsText(cordova.file.dataDirectory, 'test.txt')
+				.then(function (success) {
+					//console.log(success);
+					$scope.output = JSON.parse(success).responseText;
+				}, function (err) {
+					console.log('Read error '+err.code);
+				});
+			var rBFEnd = new Date().getTime();
+			$scope.rBFTime = rBFEnd - rBFStart;
+			};
+		});
+	}]);
+	
+})();
