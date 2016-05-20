@@ -1,5 +1,7 @@
 <h1>File</h1>
-<button class="btn btn-default" ng-click="writeTestFile()">Write Test File</button>
-<button class="btn btn-default" ng-click="readTestFile()">Read Test File</button>
-<h3>Text output:</h3><br>
-<textarea rows="8" cols="40">{{output}}</textarea>
+<p>Input file path: {{inputfile}}</p>
+<p>Output file path: {{output}}</p>
+<div class="container-fluid" style="text-align: center;">
+  <button class="btn btn-default" ng-click="writeTestFile()">Write Test File</button><p>Wrote in {{Wtime}} ms.</p><br/>
+  <button class="btn btn-default" ng-click="readTestFile()">Read Test File</button><p>Read in {{Rtime}} ms.</p>
+</div>
