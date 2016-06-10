@@ -14,6 +14,7 @@
 				console.log('writeFile started at ');
 				$cordovaFile.writeFile(cordova.file.dataDirectory , output, dataTestFile, true)
 				.then(function(success){
+					console.log('reading from '+cordova.file.dataDirectory);
 					var end = new Date().getTime();
 					$scope.Wtime = end - start;
 					//console.log("Wrote " + dataTestFile + " to test.txt");
